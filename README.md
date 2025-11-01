@@ -1,5 +1,7 @@
+uv add "langgraph-cli[inmem]"
+langgraph new src/langgraph-app
 langgraph dev --no-browser
-
+langgraph dev --help
 
 
 # LangGraph ReAct Agent Template
