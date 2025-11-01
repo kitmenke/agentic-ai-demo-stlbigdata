@@ -7,6 +7,7 @@ load_dotenv()
 
 # Initialize the OpenAI model
 # Ensure OPENAI_API_KEY is set in your .env file
+# Documentation: https://reference.langchain.com/python/langchain/models/
 model = ChatOpenAI(model="gpt-4o", temperature=0)
 
 if __name__ == "__main__":
@@ -14,6 +15,7 @@ if __name__ == "__main__":
     print("This demo shows how to use an LLM to generate SQL queries based on a schema.")
     print("The queries are NOT executed.\n")
 
+    # Documentation for Messages: https://reference.langchain.com/python/langchain/messages/
     system = SystemMessage(f"""
 You are a helpful assistant that generates SQL queries based on user questions and a given database schema.
 Do NOT execute the query. Only provide the SQL query.
@@ -51,5 +53,9 @@ CREATE TABLE orders (
     print("User Message:")
     print(user.content)
     print("\nInvoking the model to generate SQL query...\n")
+    # Documentation: https://docs.langchain.com/oss/python/langchain/models#invoke
     response = model.invoke(messages)
     print(f"Generated SQL Query:\n{response.content}")
+    # Streaming response
+    # for chunk in model.stream(messages):
+    #     print(chunk.text, end="|", flush=True)

@@ -1,9 +1,9 @@
-"""This module provides example tools for web scraping and search functionality.
+"""This module provides tools to interact with a DuckDB database.
 
-It includes a basic Tavily search function (as an example)
-
-These tools are intended as free examples to get started. For production use,
-consider implementing more robust and specialized tools tailored to your needs.
+The tools include:
+- Listing all tables in the database.
+- Getting the schema of a specific table.
+- Querying the database with a custom SQL query.
 """
 
 from typing import Any, Callable, List
