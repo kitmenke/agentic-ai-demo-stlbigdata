@@ -1,93 +1,41 @@
-uv add "langgraph-cli[inmem]"
-langgraph new src/langgraph-app
-langgraph dev --no-browser
-langgraph dev --help
+# STL Big Data Meetup: Let's Build an AI Agent
 
+## Overview
 
-# LangGraph ReAct Agent Template
+This document outlines the plan for a hands-on session at the STL Big Data Meetup. We'll build an AI agent that can answer questions about a database.
 
-This template showcases a [ReAct agent](https://arxiv.org/abs/2210.03629) implemented using [LangGraph](https://github.com/langchain-ai/langgraph), designed for [LangGraph Studio](https://github.com/langchain-ai/langgraph-studio). ReAct agents are uncomplicated, prototypical agents that can be flexibly extended to many tools.
+## Agenda
 
-The core logic, defined in `src/react_agent/graph.py`, demonstrates a flexible ReAct agent that iteratively reasons about user queries and executes actions, showcasing the power of this approach for complex problem-solving tasks.
+1.  **Introduction to AI Agents**
+    *   What is an AI Agent?
+    *   Key Concepts:
+        *   **Model:** The large language model (LLM) that powers the agent's reasoning.
+        *   **Agent:** The autonomous entity that perceives its environment and acts to achieve its goals.
+        *   **ReAct:** A framework for agents to Reason and Act.
+        *   **Model Context Protocol (MCP):** An [open-source standard](https://modelcontextprotocol.io/docs/getting-started/intro) for connecting AI applications to external systems.
 
-## What it does
+2.  **Getting Started: The Toolkit**
+    *   **uv:** A fast Python package installer.
+    *   **LangChain/LangGraph:** Frameworks for building applications with LLMs.
+    *   **DuckDB:** An in-process SQL OLAP database.
 
-The ReAct agent:
+3.  **Live Hacking: Building a Prototype**
+    *   Setting up the development environment.
+    *   Defining the agent's tools for interacting with the database.
+    *   Creating the agent's graph using LangGraph.
+    *   Testing the agent with natural language queries.
 
-1. Takes a user **query** as input
-2. Reasons about the query and decides on an action
-3. Executes the chosen action using available tools
-4. Observes the result of the action
-5. Repeats steps 2-4 until it can provide a final answer
+4.  **Q&A and Next Steps**
+    *   Open discussion and questions.
+    *   Resources for further learning.
 
-By default, it's set up with a basic set of tools, but can be easily extended with custom tools to suit various use cases.
+## Outline
 
-## Getting Started
+## Demo
 
-Assuming you have already [installed LangGraph Studio](https://github.com/langchain-ai/langgraph-studio?tab=readme-ov-file#download), to set up:
-
-1. Create a `.env` file.
-
-```bash
-cp .env.example .env
+Run the agent:
+```
+uv run langgraph dev --no-browser
 ```
 
-2. Define required API keys in your `.env` file.
-
-The primary [search tool](./src/react_agent/tools.py) [^1] used is [Tavily](https://tavily.com/). Create an API key [here](https://app.tavily.com/sign-in).
-
-### Setup Model
-
-The defaults values for `model` are shown below:
-
-```yaml
-model: claude-sonnet-4-5-20250929
-```
-
-Follow the instructions below to get set up, or pick one of the additional options.
-
-#### Anthropic
-
-To use Anthropic's chat models:
-
-1. Sign up for an [Anthropic API key](https://console.anthropic.com/) if you haven't already.
-2. Once you have your API key, add it to your `.env` file:
-
-```
-ANTHROPIC_API_KEY=your-api-key
-```
-#### OpenAI
-
-To use OpenAI's chat models:
-
-1. Sign up for an [OpenAI API key](https://platform.openai.com/signup).
-2. Once you have your API key, add it to your `.env` file:
-```
-OPENAI_API_KEY=your-api-key
-```
-
-3. Customize whatever you'd like in the code.
-4. Open the folder LangGraph Studio!
-
-## How to customize
-
-1. **Add new tools**: Extend the agent's capabilities by adding new tools in [tools.py](./src/react_agent/tools.py). These can be any Python functions that perform specific tasks.
-2. **Select a different model**: We default to Anthropic's Claude 3 Sonnet. You can select a compatible chat model using `provider/model-name` via runtime context. Example: `openai/gpt-4-turbo-preview`.
-3. **Customize the prompt**: We provide a default system prompt in [prompts.py](./src/react_agent/prompts.py). You can easily update this via context in the studio.
-
-You can also quickly extend this template by:
-
-- Modifying the agent's reasoning process in [graph.py](./src/react_agent/graph.py).
-- Adjusting the ReAct loop or adding additional steps to the agent's decision-making process.
-
-## Development
-
-While iterating on your graph, you can edit past state and rerun your app from past states to debug specific nodes. Local changes will be automatically applied via hot reload. Try adding an interrupt before the agent calls tools, updating the default system message in `src/react_agent/context.py` to take on a persona, or adding additional nodes and edges!
-
-Follow up requests will be appended to the same thread. You can create an entirely new thread, clearing previous history, using the `+` button in the top right.
-
-You can find the latest (under construction) docs on [LangGraph](https://github.com/langchain-ai/langgraph) here, including examples and other references. Using those guides can help you pick the right patterns to adapt here for your use case.
-
-LangGraph Studio also integrates with [LangSmith](https://smith.langchain.com/) for more in-depth tracing and collaboration with teammates.
-
-[^1]: https://python.langchain.com/docs/concepts/#tools
+Chat with the agent using the existing UI: https://agentchat.vercel.app/

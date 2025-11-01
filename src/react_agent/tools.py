@@ -6,17 +6,11 @@ These tools are intended as free examples to get started. For production use,
 consider implementing more robust and specialized tools tailored to your needs.
 """
 
-from typing import Any, Callable, List, Optional, cast
-
-# from langchain_tavily import TavilySearch
-# from langgraph.runtime import get_runtime
-
-# from react_agent.context import Context
+from typing import Any, Callable, List
 
 import duckdb
-from typing import List
 
-db = duckdb.connect("/Users/Kit/Code/langgraph-app/database.duckdb", read_only=True)
+db = duckdb.connect("/Users/Kit/Data/movies.duckdb", read_only=True)
 
 def list_duckdb_tables() -> List[str]:
     """List all tables in the duckdb database."""
