@@ -6,6 +6,9 @@ from chromadb.utils.batch_utils import create_batches
 from dotenv import load_dotenv
 load_dotenv()
 
+# RAG demo
+# https://docs.langchain.com/oss/python/langchain/rag
+# Initialize the vector store
 embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 vector_store = Chroma(
     collection_name="demo3_duckdb_docs",
@@ -33,11 +36,11 @@ prompt = (
     "You have access to a tool that searches the DuckDB documentation. "
     "Use the tool to help answer user queries."
 )
+# https://docs.langchain.com/oss/python/langchain/agents
 agent = create_agent(model, tools, system_prompt=prompt)
 
 query = (
-    "How to read 'example.csv' file into DuckDB?\n\n"
-    "Once you get the answer, what are some common parameters used in the function?"
+    "Explain how to read a CSV file into DuckDB and provide some examples."
 )
 
 for event in agent.stream(
