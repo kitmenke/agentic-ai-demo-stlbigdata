@@ -4,8 +4,7 @@ from langchain.tools import tool, BaseTool
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, ToolMessage, ToolCall
 from typing import List
-from pydantic import BaseModel, Field
-
+from langchain.chat_models import init_chat_model
 import duckdb
 
 load_dotenv()
@@ -35,7 +34,7 @@ def query_duckdb(query: str) -> List[str]:
 # Initialize the OpenAI model
 # Ensure OPENAI_API_KEY is set in your .env file
 # Documentation: https://reference.langchain.com/python/langchain/models/
-from langchain.chat_models import init_chat_model
+
 model = init_chat_model("gpt-5-mini", temperature=0)
 tools:List[BaseTool] = [list_duckdb_tables, get_table_schema, query_duckdb]
 model = model.bind_tools(tools)
