@@ -1,9 +1,14 @@
+"""Demo 3: Query for RAG."""
+import logging
 import os
-from langchain_openai import OpenAIEmbeddings
-from langchain_chroma import Chroma
-from chromadb.utils.batch_utils import create_batches
+
 from dotenv import load_dotenv
+from langchain_chroma import Chroma
+from langchain_openai import OpenAIEmbeddings
+
 load_dotenv()
+
+logging.basicConfig(level=logging.INFO)
 
 DATA_DIR = os.getenv("DATA_DIR")
 
@@ -17,6 +22,5 @@ vector_store = Chroma(
 query = "read_csv parameters"
 retrieved_docs = vector_store.similarity_search(query, k=3)
 for doc in retrieved_docs:
-    print("\n\n-------------------------------------------------------")
-    print(f"Source: {doc.metadata}\nContent: {doc.page_content}\n")
-  
+    logging.info("\n\n-------------------------------------------------------")
+    logging.info(f"Source: {doc.metadata}\nContent: {doc.page_content}\n")

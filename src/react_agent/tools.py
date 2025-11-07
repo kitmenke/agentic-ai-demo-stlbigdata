@@ -7,12 +7,13 @@ The tools include:
 """
 
 import os
+from typing import Any, Callable, List
+
+import duckdb
 from dotenv import load_dotenv
 from langchain.tools import tool
-from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
-from typing import Any, Callable, List
-import duckdb
+from langchain_openai import OpenAIEmbeddings
 
 load_dotenv()
 

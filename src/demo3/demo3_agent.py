@@ -1,11 +1,17 @@
+"""Demo 3: RAG Agent."""
+import logging
 import os
-from langchain_openai import OpenAIEmbeddings
-from langchain_chroma import Chroma
-from langchain.tools import tool
-from langchain.chat_models import init_chat_model
-from chromadb.utils.batch_utils import create_batches
+
 from dotenv import load_dotenv
+from langchain.agents import create_agent
+from langchain.chat_models import init_chat_model
+from langchain.tools import tool
+from langchain_chroma import Chroma
+from langchain_openai import OpenAIEmbeddings
+
 load_dotenv()
+
+logging.basicConfig(level=logging.INFO)
 
 DATA_DIR = os.getenv("DATA_DIR")
 
@@ -20,6 +26,7 @@ vector_store = Chroma(
 )
 model = init_chat_model("gpt-5-mini", temperature=0)
 
+
 @tool(response_format="content_and_artifact")
 def search_duckdb_documentation(query: str):
     """Search the DuckDB documentation and guides."""
@@ -29,8 +36,6 @@ def search_duckdb_documentation(query: str):
         for doc in retrieved_docs
     )
     return serialized, retrieved_docs
-
-from langchain.agents import create_agent
 
 
 tools = [search_duckdb_documentation]
@@ -42,12 +47,10 @@ prompt = (
 # https://docs.langchain.com/oss/python/langchain/agents
 agent = create_agent(model, tools, system_prompt=prompt)
 
-query = (
-    "Explain how to read a CSV file into DuckDB and provide some examples."
-)
+query = "Explain how to read a CSV file into DuckDB and provide some examples."
 
 for event in agent.stream(
     {"messages": [{"role": "user", "content": query}]},
     stream_mode="values",
 ):
-    event["messages"][-1].pretty_print()
+    logging.info(event["messages"][-1])

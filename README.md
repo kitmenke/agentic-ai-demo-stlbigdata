@@ -114,3 +114,11 @@ uv run langgraph dev
 Or you can chat with the agent using the existing UI: https://agentchat.vercel.app/
 
 The movies database I created using https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata/data
+
+## Original Project Setup from Template
+
+*   `uv add "langgraph-cli[inmem]"`: Install the langgraph CLI.
+*   `langgraph new src/langgraph-app`: Create a new langgraph app.
+*   
+
+This repository contains a Python-based ReAct agent built with the LangGraph framework, designed to interact with a DuckDB database. It allows users to query the database using natural language, leveraging a large language model to generate and execute SQL queries.
