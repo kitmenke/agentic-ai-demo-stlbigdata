@@ -1,3 +1,4 @@
+import os
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from langchain.tools import tool
@@ -6,6 +7,8 @@ from chromadb.utils.batch_utils import create_batches
 from dotenv import load_dotenv
 load_dotenv()
 
+DATA_DIR = os.getenv("DATA_DIR")
+
 # RAG demo
 # https://docs.langchain.com/oss/python/langchain/rag
 # Initialize the vector store
@@ -13,7 +16,7 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 vector_store = Chroma(
     collection_name="demo3_duckdb_docs",
     embedding_function=embeddings,
-    persist_directory="/Users/Kit/Data/chroma_langchain_db",  # Where to save data locally, remove if not necessary
+    persist_directory=f"{DATA_DIR}/chroma_langchain_db",  # Where to save data locally, remove if not necessary
 )
 model = init_chat_model("gpt-5-mini", temperature=0)
 

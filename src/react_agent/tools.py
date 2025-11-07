@@ -6,14 +6,19 @@ The tools include:
 - Querying the database with a custom SQL query.
 """
 
+import os
+from dotenv import load_dotenv
 from langchain.tools import tool
 from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from typing import Any, Callable, List
-
 import duckdb
 
-db = duckdb.connect("/Users/Kit/Data/movies.duckdb", read_only=True)
+load_dotenv()
+
+DATA_DIR = os.getenv("DATA_DIR")
+
+db = duckdb.connect(f"{DATA_DIR}/movies.duckdb", read_only=True)
 
 @tool
 def list_duckdb_tables() -> List[str]:
@@ -41,7 +46,7 @@ embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
 vector_store = Chroma(
     collection_name="demo3_duckdb_docs",
     embedding_function=embeddings,
-    persist_directory="/Users/Kit/Data/chroma_langchain_db",  # Where to save data locally, remove if not necessary
+    persist_directory=f"{DATA_DIR}/chroma_langchain_db",  # Where to save data locally, remove if not necessary
 )
 
 @tool(response_format="content_and_artifact")

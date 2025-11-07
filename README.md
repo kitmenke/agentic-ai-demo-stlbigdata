@@ -102,12 +102,15 @@ Then you can run the agent:
 uv run demo3_agent.py
 ```
 
-
 ### ReAct Agent Demo
 
-Run the agent:
+TODO: integrate RAG into the agent
+
+Putting it all together by running the agent:
 ```
-uv run langgraph dev --no-browser
+uv run langgraph dev
 ```
 
-Chat with the agent using the existing UI: https://agentchat.vercel.app/
+Or you can chat with the agent using the existing UI: https://agentchat.vercel.app/
+
+The movies database I created using https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata/data
