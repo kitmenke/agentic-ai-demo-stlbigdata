@@ -12,7 +12,6 @@ This document outlines the plan for a hands-on session at the STL Big Data Meetu
         *   **Model:** The large language model (LLM) that powers the agent's reasoning.
         *   **Agent:** The autonomous entity that perceives its environment and acts to achieve its goals.
         *   **ReAct:** A framework for agents to Reason and Act.
-        *   **Model Context Protocol (MCP):** An [open-source standard](https://modelcontextprotocol.io/docs/getting-started/intro) for connecting AI applications to external systems.
 
 2.  **Getting Started: The Toolkit**
     *   **uv:** A fast Python package installer.
@@ -41,25 +40,23 @@ This document outlines the plan for a hands-on session at the STL Big Data Meetu
     *   The model will generate a SQL query based on the schema and question.
     *   **Important:** The query will *not* be executed. This demo focuses solely on the model's ability to generate code.
 
-### 2. Introduction to Agents and Tools
+### 2. Introduction to Tools
 
-*   **Concept:** Introduce the concept of an AI agent as a system that can reason and act to achieve a goal. Explain that agents use "tools" to interact with their environment.
+*   **Concept:** Introduce the concept of tools as a way for a large language model to interact with its environment.
 *   **Demo:**
-    *   Create a new script (`demo2_agent.py`) that introduces a simple agent.
-    *   The agent will have one tool: a `query_database` tool that can execute a SQL query against the DuckDB database.
-    *   The agent will take a user's question, use the model to generate a SQL query, and then use the `query_database` tool to execute the query and get the result.
-    *   This demo will show the basic ReAct (Reason, Act) loop in action.
+    *   Create a new script (`demo2_tools.py`) that demonstrates how a model can use tools to interact with a database.
+    *   The script defines a set of tools: `list_duckdb_tables`, `get_table_schema`, and `query_duckdb`.
+    *   The script shows a manual, step-by-step loop where the model is invoked, decides which tool to call, and the script executes the tool.
+    *   This demo focuses on the tool-calling capabilities of the model, which is a foundational concept for building agents.
 
-### 3. Expanding the Agent's Capabilities
+### 3. Building a RAG Agent
 
-*   **Concept:** Discuss how to make agents more robust by giving them more tools and improving their reasoning process.
+*   **Concept:** Introduce the concept of Retrieval-Augmented Generation (RAG) as a way to provide an agent with external knowledge.
 *   **Demo:**
-    *   Create a new script (`demo3_multifunction_agent.py`) that enhances the agent from the previous demo.
-    *   Add more tools to the agent's toolkit:
-        *   `list_tables`: To see what tables are in the database.
-        *   `get_table_schema`: To understand the structure of a specific table.
-    *   The agent will now be able to explore the database to answer more complex questions (e.g., "What are the most popular products?").
-    *   This demo will showcase a more sophisticated agent that can perform a sequence of actions to answer a question.
+    *   This demo is split into three parts, showing how to build and use a RAG system to answer questions about DuckDB documentation.
+    *   `demo3_indexer.py`: A script that reads a markdown file containing DuckDB documentation, splits it into chunks, and indexes it into a Chroma vector store using OpenAI embeddings. This creates the knowledge base for the agent.
+    *   `demo3_query.py`: A script that shows how to perform a direct similarity search against the vector store to find relevant documentation for a given query.
+    *   `demo3_agent.py`: A script that creates an agent with a single tool: `search_duckdb_documentation`. This tool performs a similarity search in the vector store and returns the results to the agent. The agent then uses this retrieved information to answer the user's question.
 
 ### 4. Building a LangGraph Application
 
@@ -69,7 +66,44 @@ This document outlines the plan for a hands-on session at the STL Big Data Meetu
     *   The application will be structured as a state machine, with nodes for calling the model, executing tools, and handling the results.
     *   This demo will show how to build a more robust and maintainable agent using LangGraph.
 
-## Demo
+## Demos
+
+### Demo 1
+
+```
+cd src/demo1
+uv run demo1_model.py
+```
+
+### Demo 2
+
+```
+cd src/demo2
+uv run demo2_tools.py
+```
+
+### Demo 3
+
+First download the DuckDB [offline documentation](https://duckdb.org/docs/stable/guides/offline-copy).
+
+Then, run the indexer:
+```
+cd src/demo3
+uv run demo3_indexer.py
+```
+
+This creates the vector store containing the indexed DuckDB documentation. Run the query program to test:
+```
+uv run demo3_query.py
+```
+
+Then you can run the agent:
+```
+uv run demo3_agent.py
+```
+
+
+### ReAct Agent Demo
 
 Run the agent:
 ```
